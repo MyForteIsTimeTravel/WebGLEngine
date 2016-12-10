@@ -6,6 +6,10 @@ document.body.appendChild(canvas)
 var gl = canvas.getContext('webgl')
 gl.clearColor(0.44, 0.2, 0.14, 1.0)
 gl.clear(gl.COLOR_BUFFER_BIT)
+gl.enable(gl.DEPTH_TEST)
+gl.enable(gl.CULL_FACE)
+gl.frontFace(gl.CCW)
+gl.cullFace(gl.BACK)
 
 var vertexShader = gl.createShader(gl.VERTEX_SHADER)
 gl.shaderSource(vertexShader, [
@@ -115,11 +119,34 @@ gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, boxIndices, gl.STATIC_DRAW)
 // upload static shader data
 gl.useProgram(Shader)
 Shader.color = gl.getUniformLocation(Shader, 'color')
-gl.uniform4fv(Shader.color, [1, 0.2, 0.2, 1.0])
+gl.uniform4fv(Shader.color, [0.6, 0.2, 0.2, 1.0])
 
 Shader.position = gl.getAttribLocation(Shader, 'position')
 gl.enableVertexAttribArray(Shader.position)
 gl.vertexAttribPointer(Shader.position, 3, gl.FLOAT, false, 0, 0)
+
+// view transform
+var view  = new Float32Array(16)
+var viewLoc = gl.getUniformLocation(Shader, 'view')
+mat4.lookAt(view, 
+    [0, 0, -5], // position 
+    [0, 0, 0],  // forward
+    [0, 1, 0],  // up
+);
+   
+// projection transform
+var projection = new Float32Array(16)
+var projectionLoc = gl.getUniformLocation(Shader, 'projection')
+mat4.perspective(projection,
+    glMatrix.toRadian(60), // fov
+    canvas.width / canvas.height, // aspect
+    0.01, // near
+    1000, // far
+);
+    
+
+gl.uniformMatrix4fv(viewLoc, gl.FALSE, view)
+gl.uniformMatrix4fv(projectionLoc, gl.FALSE, projection)
 
 // LOOP
 var identity = new Float32Array(16)
@@ -136,36 +163,25 @@ function update () {
     // model transform
     angle = performance.now() / 1000 / 6 * 2 * Math.PI;
     var model = new Float32Array(16)
+    var xRot = new Float32Array(16)
+    var zRot = new Float32Array(16)
     var modelLoc = gl.getUniformLocation(Shader, 'model')
-    mat4.rotate(model,
+    mat4.rotate(xRot,
         identity, // original
         angle, // angle
         [0, 1, 0]   // gain
     );
     
-    // view transform
-    var view  = new Float32Array(16)
-    var viewLoc = gl.getUniformLocation(Shader, 'view')
-    mat4.lookAt(view, 
-        [0, 0, -5], // position 
-        [0, 0, 0],  // forward
-        [0, 1, 0],  // up
+    mat4.rotate(zRot,
+        identity, // original
+        angle, // angle
+        [0, 0, 1]   // gain
     );
-   
-    // projection transform
-    var projection = new Float32Array(16)
-    var projectionLoc = gl.getUniformLocation(Shader, 'projection')
-    mat4.perspective(projection,
-        glMatrix.toRadian(60), // fov
-        canvas.width / canvas.height, // aspect
-        0.01, // near
-        1000, // far
-    );
+    
+    mat4.mul(model, xRot, zRot);
     
     // pass uniforms to GPU
     gl.uniformMatrix4fv(modelLoc, gl.FALSE, model)
-    gl.uniformMatrix4fv(viewLoc, gl.FALSE, view)
-    gl.uniformMatrix4fv(projectionLoc, gl.FALSE, projection)
     
     // render
     gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0)
