@@ -34,15 +34,83 @@ gl.attachShader(Shader, vertexShader)
 gl.attachShader(Shader, fragmentShader)
 gl.linkProgram(Shader)
 
-var vertices = new Float32Array ([
+var triVertices = new Float32Array ([
     -0.5, -0.5, 0.0,
     0.5, -0.5, 0.0,
     0.0, 0.5, 0.0
 ])
 
-var buffer = gl.createBuffer()
-gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
-gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
+var boxVertices = new Float32Array ([
+        // Top
+		-1.0, 1.0, -1.0,
+		-1.0, 1.0, 1.0,
+		1.0, 1.0, 1.0,
+		1.0, 1.0, -1.0,
+
+		// Left
+		-1.0, 1.0, 1.0,
+		-1.0, -1.0, 1.0,
+		-1.0, -1.0, -1.0,
+		-1.0, 1.0, -1.0,
+
+		// Right
+		1.0, 1.0, 1.0,
+		1.0, -1.0, 1.0, 
+		1.0, -1.0, -1.0,
+		1.0, 1.0, -1.0,
+
+		// Front
+		1.0, 1.0, 1.0, 
+		1.0, -1.0, 1.0,
+		-1.0, -1.0, 1.0,
+		-1.0, 1.0, 1.0, 
+
+		// Back
+		1.0, 1.0, -1.0,
+		1.0, -1.0, -1.0,
+		-1.0, -1.0, -1.0,
+		-1.0, 1.0, -1.0,
+
+		// Bottom
+		-1.0, -1.0, -1.0, 
+		-1.0, -1.0, 1.0,
+		1.0, -1.0, 1.0,
+		1.0, -1.0, -1.0
+])
+
+var boxIndices = new Uint16Array ([
+    // top
+    0, 1, 2,
+    0, 2, 3,
+    
+    // Left
+    5, 4, 6,
+	6, 4, 7,
+
+	// Right
+	8, 9, 10,
+	8, 10, 11,
+
+	// Front
+	13, 12, 14,
+	15, 14, 12,
+
+	// Back
+	16, 17, 18,
+	16, 18, 19,
+
+	// Bottom
+	21, 20, 22,
+	22, 20, 23
+])
+
+var VBO = gl.createBuffer()
+gl.bindBuffer(gl.ARRAY_BUFFER, VBO)
+gl.bufferData(gl.ARRAY_BUFFER, boxVertices, gl.STATIC_DRAW)
+
+var EBO = gl.createBuffer()
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, EBO)
+gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, boxIndices, gl.STATIC_DRAW)
 
 // upload static shader data
 gl.useProgram(Shader)
@@ -66,7 +134,7 @@ function update () {
     gl.useProgram(Shader)
     
     // model transform
-    angle = performance.now() / 1000 / 3 * 8 * Math.PI;
+    angle = performance.now() / 1000 / 6 * 2 * Math.PI;
     var model = new Float32Array(16)
     var modelLoc = gl.getUniformLocation(Shader, 'model')
     mat4.rotate(model,
@@ -79,7 +147,7 @@ function update () {
     var view  = new Float32Array(16)
     var viewLoc = gl.getUniformLocation(Shader, 'view')
     mat4.lookAt(view, 
-        [0, 0, -2], // position 
+        [0, 0, -5], // position 
         [0, 0, 0],  // forward
         [0, 1, 0],  // up
     );
@@ -100,7 +168,8 @@ function update () {
     gl.uniformMatrix4fv(projectionLoc, gl.FALSE, projection)
     
     // render
-    gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 3)
+    gl.drawElements(gl.TRIANGLES, boxIndices.length, gl.UNSIGNED_SHORT, 0)
+   // gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 3)
     
     // see you again soon
     requestAnimationFrame(update)
