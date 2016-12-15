@@ -143,7 +143,7 @@ var viewLoc = gl.getUniformLocation(Shader, 'view')
 mat4.lookAt(view, 
     [0, 0, -5], // position 
     [0, 0, 0],  // forward
-    [0, 1, 0],  // up
+    [0, 1, 0]  // up
 );
    
 // projection transform
@@ -153,7 +153,7 @@ mat4.perspective(projection,
     glMatrix.toRadian(60), // fov
     canvas.width / canvas.height, // aspect
     0.01, // near
-    1000, // far
+    1000 // far
 );
     
 
