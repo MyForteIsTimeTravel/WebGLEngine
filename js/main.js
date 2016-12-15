@@ -169,6 +169,9 @@ function update () {
     // clear
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
     
+    // poll
+    pollGamepads();
+    
     // bind shader
     gl.useProgram(Shader)
     
