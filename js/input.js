@@ -1,3 +1,5 @@
+// example: https://github.com/luser/gamepadtest
+
 var gamepads = {};
 
 function handleGamepad (event, connecting) {
