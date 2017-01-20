@@ -19,59 +19,63 @@
         <header>
             <h1>a website about stuff</h1>
             
+            <!--
             <ol id="menu">
                 <li>home</li>
                 <li>one</li>
                 <li>two</li>
                 <li>three</li>
             </ol>
+            -->
         </header>
         
         <!-- Hero Image -->
-        <canvas id="heroCanvas" width="960" height ="540"></canvas>
+        <div id="canvasContainer">
+            <canvas id="heroCanvas" width="960" height ="500"></canvas>
+        </div>
         
         <!-- Single Page Content? -->
         <div id="pageContent">
-            <div class="contentbox" id="example1">
-                <h2> Showcase Item One </h2>
-                <p>
-                    The Boden style is the original .strandberg* shape, combining excellent ergonomics with style and aesthetics. 
-                    It is named after the city Boden in the north of Sweden, drawing on the resemblance between its shape and reindeer antlers; 
-                    there are no wild reindeer left in Sweden, but they are commonly farmed in the north.
-                </p>
-                
-                <video width="400" height="320" autoplay muted>
-                    <source src="assets/one.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
+            <a style="display:block" href="tribes.html">
+                <div class="contentbox" id="example1">
+                    <h2> Tribes: world generation engine </h2>
+                    <h3> platform: macOS</h3>
+                    <p>
+
+                    </p>
+
+                    <video width="400" height="320" autoplay loop muted>
+                        <source src="assets/one.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </a>
       
-            <div class="contentbox" id="example2">
-                <h2> Showcase Item Two </h2>
-                <p>
-                    The specs of the production Boden guitars are taken from the Made to Measure guitars of leading players such as Tosin Abasi, 
-                    Misha Mansoor, and Chris Letchford. Materials are chosen to provide a versatile tone, applicable to all types of music, 
-                    and all share the common attributes of being quick to respond and “organic” sounding. With a chambered Swamp Ash body, 
-                    it normally weighs in between 2 kg/4.4 lbs – 2.3 kg/5 lbs depending on pickups, and yet remains perfectly balanced. 
-                    The contoured body shape allows multiple comfortable seated playing positions and the low weight saves your shoulders and neck. 
-                    The patented EndurNeck™ shape relaxes muscles, joints, and tendons in your hand, wrist and forearm, and encourages a more correct playing position.  
-                    When you feel better, you sound better.
-                </p>
-                
-                <video width="400" height="320" autoplay muted>
-                    <source src="assets/two.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            
-            <div class="contentbox" id="example1">
-                <h2> Showcase Item Three </h2>
-                <p>
-                    The Boden OS line is manufactured at the highly regarded World Musical Instruments factory in Korea, to our exact specifications, 
-                    from the same high quality materials as all of our guitars with no corners cut. Final Quality Control and setup is done by Strandberg
-                    Guitars trained staff locally, and the guitar is shipped with a signed QC checklist. Boden OS guitars are delivered in a lightweight padded gig bag.
-                </p>
-            </div>
+            <a style="display:block" href="rocks.html">
+                <div class="contentbox" id="example2">
+                    <h2> Rocks </h2>
+                    <h3> platform: iOS </h3>
+
+                    <video width="400" height="320" autoplay loop muted>
+                        <source src="assets/two.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </a>
+        
+            <a style="display:block" href="rocks.html">
+                <div class="contentbox" id="example2">
+                    <h2> Something in WebVR </h2>
+                    <h3> platform: browser </h3>
+
+
+                </div>
+            </a>
         </div>
+        
+        <footer>
+            <p>Ryan Needham</p>
+            <p>2017</p>
+        </footer>
     </body>
 </html>

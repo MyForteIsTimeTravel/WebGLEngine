@@ -165,6 +165,8 @@ function heroAnimation () {
     var angle = 0;
 
     mat4.identity(identity)
+    
+    //window.setTimeout(update,8000);
     function update () {
         // clear
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
